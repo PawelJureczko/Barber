@@ -4,28 +4,20 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const team = [
   {
-    name: 'Barber 1',          // TODO: replace with real name
+    name: 'Marek',
     role: 'Master Barber',
-    bio: 'Opis barbera — jego styl, specjalizacja, doświadczenie. 2–3 zdania które budują zaufanie i pokazują charakter.',
-    photo: `${base}/images/placeholder-barber-1.svg`,
-    photoAlt: 'Barber — Razor Sznyt Knurów',
+    bio: 'Założyciel Razor Sznyt i człowiek, który traktuje brzytwę poważniej niż własne urodziny. Mówią, że śni o idealnych fade\'ach — i chyba to prawda.',
+    photo: `${base}/images/barber-1.webp`,
+    photoAlt: 'Marek — Razor Sznyt Knurów',
     placeholder: false,
   },
   {
-    name: 'Barber 2',          // TODO: replace with real name
+    name: 'Wiktoria',
     role: 'Barber',
-    bio: 'Opis barbera — jego styl, specjalizacja, doświadczenie. 2–3 zdania które budują zaufanie i pokazują charakter.',
-    photo: `${base}/images/placeholder-barber-2.svg`,
-    photoAlt: 'Barber — Razor Sznyt Knurów',
+    bio: 'Udowadnia, że najlepsze strzyżenie w mieście może wyjść spod damskiej ręki. Klienci wychodzą zadowoleni — i z nowym ulubionym barberem.',
+    photo: `${base}/images/barber-2.webp`,
+    photoAlt: 'Wiktoria — Razor Sznyt Knurów',
     placeholder: false,
-  },
-  {
-    name: 'Wkrótce',
-    role: 'Nowy barber',
-    bio: 'Rozwijamy ekipę. Niedługo dołączy do nas kolejny specjalista.',
-    photo: null,
-    photoAlt: '',
-    placeholder: true,
   },
 ];
 ---
@@ -63,7 +55,7 @@ const team = [
               <img
                 src={member.photo!}
                 alt={member.photoAlt}
-                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 brightness-75"
                 loading="lazy"
                 width="400"
                 height="533"

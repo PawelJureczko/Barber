@@ -1,4 +1,5 @@
 ---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const BOOKSY_URL = 'https://booksy.com/pl-pl/253466_razor-sznyt_barber-shop_12841_knurow#ba_s=seo';
 
 const hours = [
@@ -115,28 +116,31 @@ const hours = [
         </div>
       </div>
 
-      <!-- Right: map placeholder -->
+      <!-- Right: map image -->
       <div class="relative">
-        <div class="w-full h-64 sm:h-80 lg:h-full min-h-80 bg-brand-surface border border-white/10 flex items-center justify-center overflow-hidden">
-          <!-- Static map image as a nicer placeholder -->
-          <div class="absolute inset-0 flex flex-col items-center justify-center gap-4 text-center p-8">
-            <svg class="w-12 h-12 text-brand-gold/40" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-            </svg>
-            <div>
-              <p class="text-brand-text font-medium">ul. Batorego 4</p>
-              <p class="text-brand-muted text-sm">44-194 Knurów</p>
-            </div>
-            <a
-              href="https://maps.google.com/?q=Batorego+4,+44-194+Knurów"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-brand-gold text-xs tracking-widest uppercase hover:text-brand-gold-light transition-colors duration-300 border border-brand-gold/30 px-4 py-2"
-            >
+        <a
+          href="https://maps.google.com/?q=Batorego+4,+44-194+Knurów"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group block w-full h-64 sm:h-80 lg:h-full min-h-80 overflow-hidden border border-white/10 relative"
+          aria-label="Otwórz lokalizację w Google Maps"
+        >
+          <img
+            src={`${base}/images/map.png`}
+            alt="Mapa — Razor Sznyt Barber Shop, ul. Batorego 4, Knurów"
+            class="w-full h-full object-cover opacity-60"
+            style="object-position: 36% 51%"
+            loading="lazy"
+            width="600"
+            height="504"
+          />
+          <!-- Overlay on hover -->
+          <div class="absolute inset-0 bg-brand-black/0 group-hover:bg-brand-black/30 transition-colors duration-300 flex items-center justify-center">
+            <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-brand-gold text-brand-black text-xs font-semibold tracking-widest uppercase px-4 py-2">
               Otwórz w Mapach Google →
-            </a>
+            </span>
           </div>
-        </div>
+        </a>
       </div>
 
     </div>
