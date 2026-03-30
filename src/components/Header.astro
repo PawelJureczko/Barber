@@ -41,7 +41,7 @@ const navLinks = [
       </nav>
 
       <!-- CTA + Mobile menu button -->
-      <div class="flex items-center gap-4">
+      <div class="flex items-center gap-4 relative z-50">
         <a
           href={BOOKSY_URL}
           target="_blank"
@@ -67,34 +67,34 @@ const navLinks = [
       </div>
     </div>
   </div>
-
-  <!-- Mobile menu -->
-  <div
-    id="mobile-menu"
-    class="lg:hidden hidden border-t border-white/5 bg-brand-black/95 backdrop-blur-lg"
-    aria-label="Menu mobilne"
-  >
-    <nav class="container mx-auto px-6 py-6 flex flex-col gap-4">
-      {navLinks.map(link => (
-        <a
-          href={link.href}
-          class="mobile-nav-link text-base tracking-wider text-brand-muted hover:text-brand-gold transition-colors duration-300 uppercase font-medium py-2 border-b border-white/5"
-        >
-          {link.label}
-        </a>
-      ))}
-      <a
-        href={BOOKSY_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="mt-2 inline-flex items-center justify-center px-6 py-3 bg-brand-gold text-brand-black text-sm font-semibold tracking-wider uppercase"
-        onclick="window.trackCTA && window.trackCTA('mobile-menu')"
-      >
-        Umów wizytę
-      </a>
-    </nav>
-  </div>
 </header>
+
+<!-- Mobile menu — poza headerem, żeby backdrop-blur na headerze nie tworzył containing block dla fixed -->
+<div
+  id="mobile-menu"
+  class="lg:hidden hidden fixed inset-0 bg-brand-black/95 backdrop-blur-lg z-40 flex flex-col"
+  aria-label="Menu mobilne"
+>
+  <nav class="container mx-auto px-6 py-6 flex flex-col gap-4 mt-20">
+    {navLinks.map(link => (
+      <a
+        href={link.href}
+        class="mobile-nav-link text-base tracking-wider text-brand-muted hover:text-brand-gold transition-colors duration-300 uppercase font-medium py-2 border-b border-white/5"
+      >
+        {link.label}
+      </a>
+    ))}
+    <a
+      href={BOOKSY_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="mt-2 inline-flex items-center justify-center px-6 py-3 bg-brand-gold text-brand-black text-sm font-semibold tracking-wider uppercase"
+      onclick="window.trackCTA && window.trackCTA('mobile-menu')"
+    >
+      Umów wizytę
+    </a>
+  </nav>
+</div>
 
 <script>
   const header = document.getElementById('header')!;
@@ -110,20 +110,27 @@ const navLinks = [
     }
   }, { passive: true });
 
+  function openMenu() {
+    menu.classList.remove('hidden');
+    btn.setAttribute('aria-expanded', 'true');
+    btn.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    menu.classList.add('hidden');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
   // Mobile menu toggle
   btn.addEventListener('click', () => {
-    const isOpen = !menu.classList.contains('hidden');
-    menu.classList.toggle('hidden', isOpen);
-    btn.setAttribute('aria-expanded', String(!isOpen));
-    btn.classList.toggle('open', !isOpen);
+    menu.classList.contains('hidden') ? openMenu() : closeMenu();
   });
 
   // Close on nav link click
   menu.querySelectorAll('.mobile-nav-link').forEach(link => {
-    link.addEventListener('click', () => {
-      menu.classList.add('hidden');
-      btn.setAttribute('aria-expanded', 'false');
-      btn.classList.remove('open');
-    });
+    link.addEventListener('click', closeMenu);
   });
 </script>
