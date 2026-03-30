@@ -1,0 +1,80 @@
+---
+const stats = [
+  { value: '2024', label: 'Rok założenia' },
+  { value: '2+', label: 'Doświadczonych barberów' },
+  { value: '100%', label: 'Zadowolonych klientów' },
+];
+---
+
+<section id="o-nas" class="section-padding bg-brand-black">
+  <div class="container mx-auto px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+      <!-- Image side -->
+      <div class="relative order-2 lg:order-1">
+        <div class="relative aspect-[4/5] overflow-hidden">
+          <!-- Placeholder: replace with actual salon interior photo -->
+          <img
+            src="/images/placeholder-about.svg"
+            alt="Wnętrze Razor Sznyt Barber Shop w Knurowie"
+            class="w-full h-full object-cover"
+            loading="lazy"
+            width="800"
+            height="1000"
+          />
+          <!-- Gold accent border -->
+          <div class="absolute inset-0 border border-brand-gold/20 pointer-events-none"></div>
+        </div>
+        <!-- Decorative offset frame -->
+        <div class="absolute -bottom-4 -right-4 w-full h-full border border-brand-gold/15 -z-10 hidden sm:block" aria-hidden="true"></div>
+
+        <!-- Floating stat card -->
+        <div class="absolute -bottom-6 -left-4 sm:-left-8 bg-brand-surface border border-white/10 p-5 sm:p-6 shadow-2xl">
+          <p class="text-3xl sm:text-4xl font-heading font-bold text-brand-gold">16.08</p>
+          <p class="text-xs text-brand-muted tracking-widest uppercase mt-1">Działamy od 2024</p>
+        </div>
+      </div>
+
+      <!-- Text side -->
+      <div class="order-1 lg:order-2">
+        <!-- Section label -->
+        <div class="flex items-center gap-3 mb-6">
+          <span class="block w-8 h-px bg-brand-gold" aria-hidden="true"></span>
+          <span class="text-brand-gold text-xs tracking-[0.4em] uppercase font-medium">O nas</span>
+        </div>
+
+        <h2 class="font-heading text-4xl sm:text-5xl font-bold leading-tight mb-6">
+          Więcej niż<br />
+          <span class="text-gradient">fryzjer.</span>
+        </h2>
+
+        <div class="space-y-4 text-brand-muted leading-relaxed">
+          <p>
+            Razor Sznyt to miejsce, gdzie rzemiosło spotyka się z charakterem. Jesteśmy barber shopem
+            stworzonym dla mężczyzn, którzy cenią precyzję, styl i swobodną atmosferę — bez sztuczności,
+            bez pośpiechu.
+          </p>
+          <p>
+            Nasi barberzy to nie tylko specjaliści od nożyczek i brzytwy. Doradzą Ci w doborze fryzury
+            do kształtu twarzy, stylu życia i charakteru. Rozmawiamy po ludzku — bo dobre strzyżenie
+            zaczyna się od dobrego słuchania.
+          </p>
+          <p>
+            Przyjdź raz — zostaniesz na lata.
+          </p>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-3 gap-4 mt-10 pt-10 border-t border-white/10">
+          {stats.map(stat => (
+            <div class="text-center">
+              <p class="font-heading text-2xl sm:text-3xl font-bold text-brand-gold">{stat.value}</p>
+              <p class="text-xs text-brand-muted tracking-wide mt-1 leading-tight">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

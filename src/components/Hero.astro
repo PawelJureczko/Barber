@@ -1,0 +1,97 @@
+---
+const BOOKSY_URL = 'https://booksy.com/pl-pl/253466_razor-sznyt_barber-shop_12841_knurow#ba_s=seo';
+---
+
+<section
+  id="hero"
+  class="relative min-h-screen flex items-center justify-center overflow-hidden"
+>
+  <!-- Background image placeholder -->
+  <div class="absolute inset-0 z-0" aria-hidden="true">
+    <!-- Placeholder: replace src with actual hero photo -->
+    <img
+      src="/images/placeholder-hero.svg"
+      alt=""
+      class="w-full h-full object-cover scale-110"
+      id="hero-parallax-img"
+      width="1920"
+      height="1080"
+      fetchpriority="high"
+    />
+    <div class="absolute inset-0 bg-gradient-to-b from-brand-black/70 via-brand-black/50 to-brand-black"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-brand-black/60 via-transparent to-transparent"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="relative z-10 container mx-auto px-6 lg:px-8 pt-24">
+    <div class="max-w-3xl">
+      <!-- Eyebrow -->
+      <div class="flex items-center gap-3 mb-6 animate-fade-in-up" style="animation-delay: 0.1s">
+        <span class="block w-8 h-px bg-brand-gold" aria-hidden="true"></span>
+        <span class="text-brand-gold text-xs tracking-[0.4em] uppercase font-medium">Barber Shop · Knurów</span>
+      </div>
+
+      <!-- Heading -->
+      <h1 class="font-heading text-6xl sm:text-7xl lg:text-8xl font-bold leading-none mb-4 animate-fade-in-up" style="animation-delay: 0.2s">
+        Razor<br />
+        <span class="text-gradient">Sznyt</span>
+      </h1>
+
+      <!-- Tagline -->
+      <p class="text-lg sm:text-xl lg:text-2xl text-brand-muted font-light tracking-wide mb-10 animate-fade-in-up" style="animation-delay: 0.35s">
+        Precyzja w każdym cięciu.
+      </p>
+
+      <!-- CTAs -->
+      <div class="flex flex-col sm:flex-row gap-4 animate-fade-in-up" style="animation-delay: 0.5s">
+        <a
+          href={BOOKSY_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-brand-gold text-brand-black font-semibold tracking-widest uppercase text-sm transition-all duration-300 hover:bg-brand-gold-light hover:gap-4"
+          onclick="window.trackCTA && window.trackCTA('hero')"
+        >
+          Umów wizytę
+          <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+        <a
+          href="#galeria"
+          class="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/20 text-brand-text font-medium tracking-widest uppercase text-sm transition-all duration-300 hover:border-brand-gold hover:text-brand-gold"
+        >
+          Zobacz nasze prace
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2" aria-hidden="true">
+    <span class="text-brand-muted text-xs tracking-widest uppercase">Scroll</span>
+    <svg class="w-4 h-6 text-brand-gold animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9l-7 7-7-7" />
+    </svg>
+  </div>
+</section>
+
+<style>
+  @keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-fade-in-up {
+    opacity: 0;
+    animation: fade-in-up 0.8s ease forwards;
+  }
+</style>
+
+<script>
+  const img = document.getElementById('hero-parallax-img') as HTMLImageElement | null;
+  if (img) {
+    window.addEventListener('scroll', () => {
+      img.style.transform = `scale(1.1) translateY(${window.scrollY * 0.3}px)`;
+    }, { passive: true });
+  }
+</script>

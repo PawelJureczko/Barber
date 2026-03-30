@@ -1,0 +1,118 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonicalUrl?: string;
+}
+
+const {
+  title = 'Razor Sznyt — Barber Shop Knurów | Precyzja w każdym cięciu',
+  description = 'Razor Sznyt to najlepszy barber shop w Knurowie. Profesjonalne strzyżenie, stylizacja brody i fachowe doradztwo. Umów wizytę online przez Booksy.',
+  image = '/images/og-image.jpg',
+  canonicalUrl = Astro.url.href,
+} = Astro.props;
+
+const GA_ID = 'G-XXXXXXXXXX'; // TODO: replace with real GA4 Measurement ID
+
+const siteUrl = 'https://razorsznyt.pl';
+
+const localBusinessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HairSalon',
+  name: 'Razor Sznyt',
+  description: 'Nowoczesny barber shop w Knurowie. Strzyżenie, broda, doradztwo fryzjerskie.',
+  url: siteUrl,
+  telephone: '+48572216680',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Batorego 4',
+    addressLocality: 'Knurów',
+    postalCode: '44-194',
+    addressCountry: 'PL',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 50.2206,
+    longitude: 18.6611,
+  },
+  openingHoursSpecification: [
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Monday', opens: '12:00', closes: '20:00' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Tuesday', opens: '10:00', closes: '20:00' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Wednesday', opens: '10:00', closes: '20:00' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Thursday', opens: '10:00', closes: '20:00' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Friday', opens: '10:00', closes: '20:00' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Saturday', opens: '09:00', closes: '17:00' },
+  ],
+  sameAs: [
+    'https://www.instagram.com/razor_sznyt/',
+    'https://www.facebook.com/p/Razor-Sznyt-61563316386455/',
+    'https://booksy.com/pl-pl/253466_razor-sznyt_barber-shop_12841_knurow',
+  ],
+  priceRange: '$$',
+  image: `${siteUrl}/images/og-image.jpg`,
+};
+---
+
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0d0d0d" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={`${siteUrl}${image}`} />
+    <meta property="og:locale" content="pl_PL" />
+    <meta property="og:site_name" content="Razor Sznyt" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${siteUrl}${image}`} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- LocalBusiness Schema -->
+    <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
+
+    <!-- Google Analytics 4 -->
+    <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
+    <script define:vars={{ GA_ID }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', GA_ID, { anonymize_ip: true });
+
+      window.trackCTA = function(location) {
+        gtag('event', 'booksy_cta_click', {
+          event_category: 'engagement',
+          event_label: location,
+        });
+      };
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

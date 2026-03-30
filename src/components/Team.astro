@@ -1,0 +1,109 @@
+---
+const BOOKSY_URL = 'https://booksy.com/pl-pl/253466_razor-sznyt_barber-shop_12841_knurow#ba_s=seo';
+
+const team = [
+  {
+    name: 'Barber 1',          // TODO: replace with real name
+    role: 'Master Barber',
+    bio: 'Opis barbera — jego styl, specjalizacja, doświadczenie. 2–3 zdania które budują zaufanie i pokazują charakter.',
+    photo: '/images/placeholder-barber-1.svg',
+    photoAlt: 'Barber — Razor Sznyt Knurów',
+    placeholder: false,
+  },
+  {
+    name: 'Barber 2',          // TODO: replace with real name
+    role: 'Barber',
+    bio: 'Opis barbera — jego styl, specjalizacja, doświadczenie. 2–3 zdania które budują zaufanie i pokazują charakter.',
+    photo: '/images/placeholder-barber-2.svg',
+    photoAlt: 'Barber — Razor Sznyt Knurów',
+    placeholder: false,
+  },
+  {
+    name: 'Wkrótce',
+    role: 'Nowy barber',
+    bio: 'Rozwijamy ekipę. Niedługo dołączy do nas kolejny specjalista.',
+    photo: null,
+    photoAlt: '',
+    placeholder: true,
+  },
+];
+---
+
+<section id="team" class="section-padding bg-brand-surface">
+  <div class="container mx-auto px-6 lg:px-8">
+
+    <!-- Header -->
+    <div class="max-w-2xl mb-14 lg:mb-20">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="block w-8 h-px bg-brand-gold" aria-hidden="true"></span>
+        <span class="text-brand-gold text-xs tracking-[0.4em] uppercase font-medium">Zespół</span>
+      </div>
+      <h2 class="font-heading text-4xl sm:text-5xl font-bold leading-tight">
+        Ludzie za<br />
+        <span class="text-gradient">brzytwą.</span>
+      </h2>
+    </div>
+
+    <!-- Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+      {team.map(member => (
+        <div class={`group flex flex-col ${member.placeholder ? 'opacity-50' : ''}`}>
+          <!-- Photo -->
+          <div class="relative aspect-[3/4] overflow-hidden bg-brand-surface-2 mb-6">
+            {member.placeholder ? (
+              <!-- Placeholder card -->
+              <div class="w-full h-full flex flex-col items-center justify-center gap-4 border border-dashed border-white/20">
+                <svg class="w-12 h-12 text-brand-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <span class="text-brand-muted text-xs tracking-widest uppercase">Wkrótce</span>
+              </div>
+            ) : (
+              <img
+                src={member.photo!}
+                alt={member.photoAlt}
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                loading="lazy"
+                width="400"
+                height="533"
+              />
+            )}
+            <!-- Gold accent line on hover -->
+            {!member.placeholder && (
+              <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-brand-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+            )}
+          </div>
+
+          <!-- Info -->
+          <div class="flex flex-col gap-2">
+            <div class="flex items-baseline gap-3">
+              <h3 class="font-heading text-xl font-semibold text-brand-text">{member.name}</h3>
+              <span class="text-brand-gold text-xs tracking-widest uppercase">{member.role}</span>
+            </div>
+            <p class="text-brand-muted text-sm leading-relaxed">{member.bio}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- CTA -->
+    <div class="mt-14 lg:mt-20 pt-10 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6">
+      <p class="text-brand-muted text-sm max-w-md">
+        Dobieramy się we dwójkę — możesz wybrać konkretnego barbera przy rezerwacji przez Booksy.
+      </p>
+      <a
+        href={BOOKSY_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group shrink-0 inline-flex items-center gap-3 px-8 py-4 bg-brand-gold text-brand-black font-semibold tracking-widest uppercase text-sm transition-all duration-300 hover:bg-brand-gold-light hover:gap-4"
+        onclick="window.trackCTA && window.trackCTA('team')"
+      >
+        Umów wizytę
+        <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+    </div>
+
+  </div>
+</section>
