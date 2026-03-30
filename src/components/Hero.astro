@@ -1,5 +1,6 @@
 ---
 const BOOKSY_URL = 'https://booksy.com/pl-pl/253466_razor-sznyt_barber-shop_12841_knurow#ba_s=seo';
+const base = import.meta.env.BASE_URL;
 ---
 
 <section
@@ -9,7 +10,7 @@ const BOOKSY_URL = 'https://booksy.com/pl-pl/253466_razor-sznyt_barber-shop_1284
   <!-- Background image placeholder -->
   <div class="absolute inset-0 z-0" aria-hidden="true">
     <img
-      src="/images/hero.webp"
+      src={`${base}images/hero.webp`}
       alt=""
       class="w-full h-full object-cover object-[center_55%] scale-110"
       id="hero-parallax-img"
