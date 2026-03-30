@@ -84,7 +84,7 @@ const localBusinessSchema = {
     <meta name="twitter:image" content={`${siteUrl}${image}`} />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/images/favicon.png" />
+    <link rel="icon" type="image/png" href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/images/favicon.png`} />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -99,11 +99,10 @@ const localBusinessSchema = {
 
     <!-- Google Analytics 4 — Consent Mode v2 -->
     <!-- 1. Inicjalizacja dataLayer i domyślna zgoda PRZED załadowaniem gtag.js -->
-    <script>
+    <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag() { dataLayer.push(arguments); }
 
-      // Domyślnie denied — GA nie zbiera danych bez zgody użytkownika
       gtag('consent', 'default', {
         analytics_storage:  'denied',
         ad_storage:         'denied',
@@ -114,18 +113,15 @@ const localBusinessSchema = {
     </script>
 
     <!-- 2. Ładowanie skryptu GA -->
-    <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
+    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
 
     <!-- 3. Konfiguracja GA + przywrócenie zgody jeśli już udzielona -->
-    <script define:vars={{ GA_ID }}>
+    <script is:inline define:vars={{ GA_ID }}>
       gtag('js', new Date());
       gtag('config', GA_ID, { send_page_view: true });
 
-      // Jeśli użytkownik już wcześniej zaakceptował — przywróć zgodę natychmiast
       if (localStorage.getItem('cookie-consent') === 'accepted') {
-        gtag('consent', 'update', {
-          analytics_storage: 'granted',
-        });
+        gtag('consent', 'update', { analytics_storage: 'granted' });
       }
 
       window.trackCTA = function(location) {
@@ -135,11 +131,8 @@ const localBusinessSchema = {
         });
       };
 
-      // Eksponuj funkcję aktualizacji zgody dla bannera
       window.grantAnalyticsConsent = function() {
-        gtag('consent', 'update', {
-          analytics_storage: 'granted',
-        });
+        gtag('consent', 'update', { analytics_storage: 'granted' });
       };
     </script>
   </head>
