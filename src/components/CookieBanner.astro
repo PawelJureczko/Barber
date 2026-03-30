@@ -49,6 +49,9 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   acceptBtn.addEventListener('click', () => {
     localStorage.setItem('cookie-consent', 'accepted');
     banner.classList.add('hidden');
+    if (typeof window.grantAnalyticsConsent === 'function') {
+      window.grantAnalyticsConsent();
+    }
   });
 
   rejectBtn.addEventListener('click', () => {

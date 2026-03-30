@@ -97,18 +97,48 @@ const localBusinessSchema = {
     <!-- LocalBusiness Schema -->
     <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
 
-    <!-- Google Analytics 4 -->
-    <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
-    <script define:vars={{ GA_ID }}>
+    <!-- Google Analytics 4 — Consent Mode v2 -->
+    <!-- 1. Inicjalizacja dataLayer i domyślna zgoda PRZED załadowaniem gtag.js -->
+    <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() { dataLayer.push(arguments); }
+
+      // Domyślnie denied — GA nie zbiera danych bez zgody użytkownika
+      gtag('consent', 'default', {
+        analytics_storage:  'denied',
+        ad_storage:         'denied',
+        ad_user_data:       'denied',
+        ad_personalization: 'denied',
+        wait_for_update:    500,
+      });
+    </script>
+
+    <!-- 2. Ładowanie skryptu GA -->
+    <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
+
+    <!-- 3. Konfiguracja GA + przywrócenie zgody jeśli już udzielona -->
+    <script define:vars={{ GA_ID }}>
       gtag('js', new Date());
-      gtag('config', GA_ID, { anonymize_ip: true });
+      gtag('config', GA_ID, { send_page_view: true });
+
+      // Jeśli użytkownik już wcześniej zaakceptował — przywróć zgodę natychmiast
+      if (localStorage.getItem('cookie-consent') === 'accepted') {
+        gtag('consent', 'update', {
+          analytics_storage: 'granted',
+        });
+      }
 
       window.trackCTA = function(location) {
         gtag('event', 'booksy_cta_click', {
           event_category: 'engagement',
           event_label: location,
+        });
+      };
+
+      // Eksponuj funkcję aktualizacji zgody dla bannera
+      window.grantAnalyticsConsent = function() {
+        gtag('consent', 'update', {
+          analytics_storage: 'granted',
         });
       };
     </script>
