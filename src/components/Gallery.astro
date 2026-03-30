@@ -1,12 +1,12 @@
 ---
 // Placeholders — replace src values with real photos
 const photos = [
-  { src: '/images/placeholder-gallery-1.svg', alt: 'Strzyżenie fade — Razor Sznyt Knurów', wide: true },
-  { src: '/images/placeholder-gallery-2.svg', alt: 'Stylizacja brody — Razor Sznyt Knurów', wide: false },
-  { src: '/images/placeholder-gallery-3.svg', alt: 'Undercut — Razor Sznyt Knurów', wide: false },
-  { src: '/images/placeholder-gallery-4.svg', alt: 'Klasyczne strzyżenie — Razor Sznyt Knurów', wide: false },
-  { src: '/images/placeholder-gallery-5.svg', alt: 'Wnętrze salonu Razor Sznyt', wide: false },
-  { src: '/images/placeholder-gallery-6.svg', alt: 'Crop fade — Razor Sznyt Knurów', wide: true },
+  { src: '/images/gallery-1.webp', alt: 'Fade rude włosy — Razor Sznyt Knurów', wide: false, pos: 'center 40%' },
+  { src: '/images/gallery-2.webp', alt: 'Stylizacja brody — Razor Sznyt Knurów', wide: false, pos: 'center 50%' },
+  { src: '/images/gallery-3.webp', alt: 'Fade z brodą — Razor Sznyt Knurów', wide: false, pos: 'center 30%' },
+  { src: '/images/gallery-4.webp', alt: 'Undercut fade — Razor Sznyt Knurów', wide: false, pos: 'center 35%' },
+  { src: '/images/gallery-5.webp', alt: 'Pompadour fade — Razor Sznyt Knurów', wide: true, pos: 'center 30%' },
+  { src: '/images/gallery-6.webp', alt: 'Side part fade — Razor Sznyt Knurów', wide: true, pos: 'center 35%' },
 ];
 
 const BOOKSY_URL = 'https://booksy.com/pl-pl/253466_razor-sznyt_barber-shop_12841_knurow#ba_s=seo';
@@ -44,43 +44,49 @@ const BOOKSY_URL = 'https://booksy.com/pl-pl/253466_razor-sznyt_barber-shop_1284
       </a>
     </div>
 
-    <!-- Parallax photo strip -->
+    <!-- Infinite marquee strip -->
     <div class="relative">
       <!-- Row 1 — scrolls left -->
-      <div class="gallery-track flex gap-4 mb-4 overflow-hidden" id="gallery-row-1">
-        {[...photos, ...photos].map((photo, i) => (
-          <div class={`gallery-item shrink-0 overflow-hidden ${photo.wide ? 'w-72 sm:w-96' : 'w-56 sm:w-72'} h-64 sm:h-80`}>
-            <img
-              src={photo.src}
-              alt={photo.alt}
-              class="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
-              loading="lazy"
-              width="400"
-              height="320"
-            />
-          </div>
-        ))}
+      <div class="gallery-overflow mb-4" id="gallery-row-1">
+        <div class="gallery-track gallery-track--left flex gap-4">
+          {[...photos, ...photos, ...photos, ...photos].map((photo) => (
+            <div class={`gallery-item shrink-0 overflow-hidden ${photo.wide ? 'w-72 sm:w-96' : 'w-56 sm:w-72'} h-64 sm:h-80`}>
+              <img
+                src={photo.src}
+                alt={photo.alt}
+                class="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+                style={`object-position: ${photo.pos}`}
+                loading="lazy"
+                width="400"
+                height="320"
+              />
+            </div>
+          ))}
+        </div>
       </div>
 
       <!-- Row 2 — scrolls right -->
-      <div class="gallery-track flex gap-4 overflow-hidden" id="gallery-row-2">
-        {[...photos.slice().reverse(), ...photos.slice().reverse()].map((photo, i) => (
-          <div class={`gallery-item shrink-0 overflow-hidden ${photo.wide ? 'w-72 sm:w-96' : 'w-56 sm:w-72'} h-64 sm:h-80`}>
-            <img
-              src={photo.src}
-              alt={photo.alt}
-              class="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
-              loading="lazy"
-              width="400"
-              height="320"
-            />
-          </div>
-        ))}
+      <div class="gallery-overflow" id="gallery-row-2">
+        <div class="gallery-track gallery-track--right flex gap-4">
+          {[...photos.slice().reverse(), ...photos.slice().reverse(), ...photos.slice().reverse(), ...photos.slice().reverse()].map((photo) => (
+            <div class={`gallery-item shrink-0 overflow-hidden ${photo.wide ? 'w-72 sm:w-96' : 'w-56 sm:w-72'} h-64 sm:h-80`}>
+              <img
+                src={photo.src}
+                alt={photo.alt}
+                class="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+                style={`object-position: ${photo.pos}`}
+                loading="lazy"
+                width="400"
+                height="320"
+              />
+            </div>
+          ))}
+        </div>
       </div>
 
       <!-- Gradient fade edges -->
-      <div class="absolute inset-y-0 left-0 w-16 sm:w-32 bg-gradient-to-r from-brand-black to-transparent pointer-events-none z-10" aria-hidden="true"></div>
-      <div class="absolute inset-y-0 right-0 w-16 sm:w-32 bg-gradient-to-l from-brand-black to-transparent pointer-events-none z-10" aria-hidden="true"></div>
+      <div class="absolute inset-y-0 left-[-1px] w-16 sm:w-32 bg-gradient-to-r from-brand-black to-transparent pointer-events-none z-10" aria-hidden="true"></div>
+      <div class="absolute inset-y-0 right-[-1px] w-16 sm:w-32 bg-gradient-to-l from-brand-black to-transparent pointer-events-none z-10" aria-hidden="true"></div>
     </div>
 
     <!-- CTA -->
@@ -102,55 +108,59 @@ const BOOKSY_URL = 'https://booksy.com/pl-pl/253466_razor-sznyt_barber-shop_1284
   </div>
 </section>
 
+<style>
+  .gallery-overflow {
+    overflow: hidden;
+  }
+
+  @keyframes marquee-left {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  @keyframes marquee-right {
+    from { transform: translateX(-50%); }
+    to   { transform: translateX(0); }
+  }
+
+  .gallery-track--left {
+    width: max-content;
+    animation: marquee-left 300s linear infinite;
+  }
+
+  .gallery-track--right {
+    width: max-content;
+    animation: marquee-right 300s linear infinite;
+  }
+
+  .gallery-track--left.paused,
+  .gallery-track--right.paused {
+    animation-play-state: paused;
+  }
+
+  .gallery-item {
+    position: relative;
+  }
+
+  .gallery-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.25);
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .gallery-item:hover::after {
+    opacity: 0;
+  }
+</style>
+
 <script>
-  // Auto-scrolling marquee rows
-  let row1Offset = 0;
-  let row2Offset = 0;
-  let animFrame: number;
-  let paused = false;
-
-  const row1 = document.getElementById('gallery-row-1');
-  const row2 = document.getElementById('gallery-row-2');
-
-  function getRowWidth(row: HTMLElement): number {
-    const items = row.querySelectorAll('.gallery-item');
-    const half = Math.floor(items.length / 2);
-    let width = 0;
-    for (let i = 0; i < half; i++) {
-      const el = items[i] as HTMLElement;
-      width += el.offsetWidth + 16; // gap-4 = 16px
-    }
-    return width;
-  }
-
-  function animate() {
-    if (!paused && row1 && row2) {
-      row1Offset -= 0.5;
-      row2Offset += 0.5;
-
-      const w1 = getRowWidth(row1);
-      const w2 = getRowWidth(row2);
-
-      if (Math.abs(row1Offset) >= w1) row1Offset = 0;
-      if (row2Offset >= w2) row2Offset = 0;
-
-      row1.style.transform = `translateX(${row1Offset}px)`;
-      row2.style.transform = `translateX(${-w2 / 2 + row2Offset}px)`;
-    }
-    animFrame = requestAnimationFrame(animate);
-  }
-
-  // Pause on hover
-  [row1, row2].forEach(row => {
-    row?.addEventListener('mouseenter', () => { paused = true; });
-    row?.addEventListener('mouseleave', () => { paused = false; });
+  const rows = document.querySelectorAll<HTMLElement>('.gallery-overflow');
+  rows.forEach(row => {
+    const track = row.querySelector<HTMLElement>('.gallery-track');
+    row.addEventListener('mouseenter', () => track?.classList.add('paused'));
+    row.addEventListener('mouseleave', () => track?.classList.remove('paused'));
   });
-
-  // Start row2 at offset so it appears to scroll right
-  if (row2) {
-    const w2 = getRowWidth(row2);
-    row2Offset = w2 / 2;
-  }
-
-  animate();
 </script>
