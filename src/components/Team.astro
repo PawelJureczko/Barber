@@ -19,6 +19,14 @@ const team = [
     photoAlt: 'Wiktoria — Razor Sznyt Knurów',
     placeholder: false,
   },
+  {
+    name: 'Natalia',
+    role: 'Barber',
+    bio: 'Aktualnie na misji ważniejszej niż fade — wychowuje kolejne pokolenie barberów. Wróci, kiedy uzna, że świat jest gotowy.',
+    photo: `${base}/images/barber-3.webp`,
+    photoAlt: 'Natalia — Razor Sznyt Knurów',
+    placeholder: false,
+  },
 ];
 ---
 
@@ -49,7 +57,7 @@ const team = [
                 <svg class="w-12 h-12 text-brand-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
-                <span class="text-brand-muted text-xs tracking-widest uppercase">Wkrótce</span>
+                <span class="text-brand-muted text-xs tracking-widest uppercase">Urlop macierzyński</span>
               </div>
             ) : (
               <img
@@ -82,7 +90,7 @@ const team = [
     <!-- CTA -->
     <div class="mt-14 lg:mt-20 pt-10 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6">
       <p class="text-brand-muted text-sm max-w-md">
-        Dobieramy się we dwójkę — możesz wybrać konkretnego barbera przy rezerwacji przez Booksy.
+        Możesz wybrać konkretnego barbera przy rezerwacji przez Booksy.
       </p>
       <a
         href={BOOKSY_URL}
