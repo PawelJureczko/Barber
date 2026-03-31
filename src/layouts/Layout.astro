@@ -16,7 +16,7 @@ const {
   canonicalUrl = Astro.url.href,
 } = Astro.props;
 
-const GA_ID = 'G-XXXXXXXXXX'; // TODO: replace with real GA4 Measurement ID
+const GA_ID = import.meta.env.PUBLIC_GA_ID;
 
 const siteUrl = 'https://razorsznyt.pl';
 
@@ -97,7 +97,8 @@ const localBusinessSchema = {
     <!-- LocalBusiness Schema -->
     <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
 
-    <!-- Google Analytics 4 — Consent Mode v2 -->
+    <!-- Google Analytics 4 — Consent Mode v2 (only on prod when GA_ID is set) -->
+    {GA_ID && <>
     <!-- 1. Inicjalizacja dataLayer i domyślna zgoda PRZED załadowaniem gtag.js -->
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
@@ -135,6 +136,7 @@ const localBusinessSchema = {
         gtag('consent', 'update', { analytics_storage: 'granted' });
       };
     </script>
+    </>}
   </head>
   <body>
     <slot />
