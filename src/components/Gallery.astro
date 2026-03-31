@@ -44,17 +44,27 @@ const BOOKSY_URL = 'https://booksy.com/pl-pl/253466_razor-sznyt_barber-shop_1284
       </a>
     </div>
 
+    <!-- Lightbox modal -->
+    <div id="lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label="Podgląd zdjęcia">
+      <button id="lightbox-close" class="absolute top-4 right-4 text-white/70 hover:text-white transition-colors p-2" aria-label="Zamknij">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+      <img id="lightbox-img" src="" alt="" class="max-w-[90vw] max-h-[90vh] object-contain" />
+    </div>
+
     <!-- Infinite marquee strip -->
     <div class="relative">
       <!-- Row 1 — scrolls left -->
       <div class="gallery-overflow mb-4" id="gallery-row-1">
         <div class="gallery-track gallery-track--left flex gap-4">
           {[...photos, ...photos, ...photos, ...photos].map((photo) => (
-            <div class={`gallery-item shrink-0 overflow-hidden ${photo.wide ? 'w-72 sm:w-96' : 'w-56 sm:w-72'} h-64 sm:h-80`}>
+            <div class={`gallery-item shrink-0 overflow-hidden ${photo.wide ? 'w-72 sm:w-96' : 'w-56 sm:w-72'} h-64 sm:h-80 cursor-pointer`} data-src={photo.src} data-alt={photo.alt}>
               <img
                 src={photo.src}
                 alt={photo.alt}
-                class="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+                class="w-full h-full object-cover transition-transform duration-700 hover:scale-110 pointer-events-none"
                 style={`object-position: ${photo.pos}`}
                 loading="lazy"
                 width="400"
@@ -69,11 +79,11 @@ const BOOKSY_URL = 'https://booksy.com/pl-pl/253466_razor-sznyt_barber-shop_1284
       <div class="gallery-overflow" id="gallery-row-2">
         <div class="gallery-track gallery-track--right flex gap-4">
           {[...photos.slice().reverse(), ...photos.slice().reverse(), ...photos.slice().reverse(), ...photos.slice().reverse()].map((photo) => (
-            <div class={`gallery-item shrink-0 overflow-hidden ${photo.wide ? 'w-72 sm:w-96' : 'w-56 sm:w-72'} h-64 sm:h-80`}>
+            <div class={`gallery-item shrink-0 overflow-hidden ${photo.wide ? 'w-72 sm:w-96' : 'w-56 sm:w-72'} h-64 sm:h-80 cursor-pointer`} data-src={photo.src} data-alt={photo.alt}>
               <img
                 src={photo.src}
                 alt={photo.alt}
-                class="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+                class="w-full h-full object-cover transition-transform duration-700 hover:scale-110 pointer-events-none"
                 style={`object-position: ${photo.pos}`}
                 loading="lazy"
                 width="400"
@@ -162,5 +172,38 @@ const BOOKSY_URL = 'https://booksy.com/pl-pl/253466_razor-sznyt_barber-shop_1284
     const track = row.querySelector<HTMLElement>('.gallery-track');
     row.addEventListener('mouseenter', () => track?.classList.add('paused'));
     row.addEventListener('mouseleave', () => track?.classList.remove('paused'));
+  });
+
+  // Lightbox
+  const lightbox = document.getElementById('lightbox')!;
+  const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
+  const lightboxClose = document.getElementById('lightbox-close')!;
+
+  function openLightbox(src: string, alt: string) {
+    lightboxImg.src = src;
+    lightboxImg.alt = alt;
+    lightbox.classList.remove('hidden');
+    lightbox.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.add('hidden');
+    lightbox.classList.remove('flex');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll<HTMLElement>('.gallery-item[data-src]').forEach(item => {
+    item.addEventListener('click', () => {
+      openLightbox(item.dataset.src!, item.dataset.alt || '');
+    });
+  });
+
+  lightboxClose.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
   });
 </script>
