@@ -3,8 +3,7 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  site: 'https://paweljureczko.github.io',
-  base: '/Barber',
+  site: 'https://razorsznyt.pl',
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],
