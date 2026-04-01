@@ -40,14 +40,22 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   const acceptBtn = document.getElementById('cookie-accept')!;
   const rejectBtn = document.getElementById('cookie-reject')!;
 
-  const consent = localStorage.getItem('cookie-consent');
+  function getCookie(name: string): string | null {
+    const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+    return match ? decodeURIComponent(match[1]) : null;
+  }
 
-  if (!consent) {
+  function setCookie(name: string, value: string, days: number) {
+    const expires = new Date(Date.now() + days * 864e5).toUTCString();
+    document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/; SameSite=Lax`;
+  }
+
+  if (!getCookie('cookie-consent')) {
     banner.classList.remove('hidden');
   }
 
   acceptBtn.addEventListener('click', () => {
-    localStorage.setItem('cookie-consent', 'accepted');
+    setCookie('cookie-consent', 'accepted', 365);
     banner.classList.add('hidden');
     if (typeof window.grantAnalyticsConsent === 'function') {
       window.grantAnalyticsConsent();
@@ -55,7 +63,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   });
 
   rejectBtn.addEventListener('click', () => {
-    localStorage.setItem('cookie-consent', 'rejected');
+    setCookie('cookie-consent', 'rejected', 365);
     banner.classList.add('hidden');
   });
 </script>

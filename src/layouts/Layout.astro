@@ -117,7 +117,8 @@ const localBusinessSchema = {
       gtag('js', new Date());
       gtag('config', GA_ID, { send_page_view: true });
 
-      if (localStorage.getItem('cookie-consent') === 'accepted') {
+      const consentCookie = document.cookie.match(/(?:^|; )cookie-consent=([^;]*)/);
+      if (consentCookie && decodeURIComponent(consentCookie[1]) === 'accepted') {
         gtag('consent', 'update', { analytics_storage: 'granted' });
       }
 
