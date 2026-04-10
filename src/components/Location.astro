@@ -86,7 +86,7 @@ const hours = [
               {hours.map((h, i) => (
                 <li
                   class="flex justify-between items-center text-sm py-1.5 border-b border-white/5 last:border-0 hours-row"
-                  data-day-index={i === 0 ? 1 : i === 6 ? 0 : i}
+                  data-day-index={i === 6 ? 0 : i + 1}
                 >
                   <span class="text-brand-muted">{h.day}</span>
                   {h.open
