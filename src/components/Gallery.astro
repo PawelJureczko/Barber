@@ -12,7 +12,7 @@ const allPhotos = [
   { src: `${base}/images/gallery-9.webp`, alt: 'Strzyżenie — Razor Sznyt Knurów', wide: false, pos: 'center 50%' },
   { src: `${base}/images/gallery-10.webp`, alt: 'Strzyżenie — Razor Sznyt Knurów', wide: false, pos: 'center 50%' },
 ];
-const photos = allPhotos.sort(() => Math.random() - 0.5);
+const photos = allPhotos;
 
 const BOOKSY_URL = 'https://booksy.com/pl-pl/253466_razor-sznyt_barber-shop_12841_knurow#ba_s=seo';
 ---
@@ -117,10 +117,15 @@ const BOOKSY_URL = 'https://booksy.com/pl-pl/253466_razor-sznyt_barber-shop_1284
   .gallery-track--left {
     width: max-content;
     animation: marquee-left 300s linear infinite;
+    animation-play-state: paused;
+  }
+
+  .gallery-track--left.running {
+    animation-play-state: running;
   }
 
   .gallery-track--left.paused {
-    animation-play-state: paused;
+    animation-play-state: paused !important;
   }
 
   .gallery-item {
@@ -142,14 +147,47 @@ const BOOKSY_URL = 'https://booksy.com/pl-pl/253466_razor-sznyt_barber-shop_1284
 </style>
 
 <script>
-  const rows = document.querySelectorAll<HTMLElement>('.gallery-overflow');
-  rows.forEach(row => {
-    const track = row.querySelector<HTMLElement>('.gallery-track');
-    row.addEventListener('mouseenter', () => track?.classList.add('paused'));
-    row.addEventListener('mouseleave', () => track?.classList.remove('paused'));
-  });
+  const section = document.getElementById('galeria')!;
+  const row = document.getElementById('gallery-row-1')!;
+  const track = row.querySelector<HTMLElement>('.gallery-track--left')!;
 
-  // Lightbox
+  function shuffle<T>(arr: T[]): T[] {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  function initGallery() {
+    const allItems = Array.from(track.querySelectorAll<HTMLElement>('.gallery-item'));
+    const uniqueCount = allItems.length / 4;
+    const unique = shuffle(allItems.slice(0, uniqueCount));
+
+    track.innerHTML = '';
+    for (let i = 0; i < 4; i++) {
+      unique.forEach(item => track.appendChild(item.cloneNode(true)));
+    }
+
+    track.classList.add('running');
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (entries[0].isIntersecting) {
+        initGallery();
+        observer.disconnect();
+      }
+    },
+    { rootMargin: '400px' }
+  );
+  observer.observe(section);
+
+  // Hover pause
+  row.addEventListener('mouseenter', () => track.classList.add('paused'));
+  row.addEventListener('mouseleave', () => track.classList.remove('paused'));
+
+  // Lightbox via event delegation
   const lightbox = document.getElementById('lightbox')!;
   const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
   const lightboxClose = document.getElementById('lightbox-close')!;
@@ -168,10 +206,9 @@ const BOOKSY_URL = 'https://booksy.com/pl-pl/253466_razor-sznyt_barber-shop_1284
     document.body.style.overflow = '';
   }
 
-  document.querySelectorAll<HTMLElement>('.gallery-item[data-src]').forEach(item => {
-    item.addEventListener('click', () => {
-      openLightbox(item.dataset.src!, item.dataset.alt || '');
-    });
+  row.addEventListener('click', (e) => {
+    const item = (e.target as Element).closest<HTMLElement>('.gallery-item[data-src]');
+    if (item) openLightbox(item.dataset.src!, item.dataset.alt || '');
   });
 
   lightboxClose.addEventListener('click', closeLightbox);
