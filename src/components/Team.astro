@@ -19,6 +19,14 @@ const team = [
     photoAlt: 'Natalia — Razor Sznyt Knurów',
     placeholder: false,
   },
+  {
+    name: 'Wiktoria',
+    role: 'Junior Barber',
+    bio: 'Najmłodsza w ekipie, więc oficjalnie odpowiada za robienie kawy. Nieoficjalnie robi fade\'y tak równe, że starsi koledzy zaczęli nerwowo zerkać na grafik.',
+    photo: `${base}/images/barber-2.webp`,
+    photoAlt: 'Wiktoria — Razor Sznyt Knurów',
+    placeholder: false,
+  },
 ];
 ---
 
@@ -38,7 +46,7 @@ const team = [
     </div>
 
     <!-- Cards -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8 max-w-3xl">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-5xl">
       {team.map((member, i) => (
         <div class={`group flex flex-col ${member.placeholder ? 'opacity-50' : ''} ${i > 0 ? 'pt-10 sm:pt-0 border-t sm:border-t-0 border-brand-gold/40' : ''}`}>
           <!-- Photo -->
