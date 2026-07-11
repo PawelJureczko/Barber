@@ -9,6 +9,7 @@ const team = [
     bio: 'Założyciel Razor Sznyt i człowiek, który traktuje brzytwę poważniej niż własne urodziny. Mówią, że śni o idealnych fade\'ach — i chyba to prawda.',
     photo: `${base}/images/barber-1.webp`,
     photoAlt: 'Marek — Razor Sznyt Knurów',
+    booksyUrl: 'https://booksy.com/pl-pl/253466_razor-sznyt_barber-shop_12841_knurow/staffer/557319',
     placeholder: false,
   },
   {
@@ -25,6 +26,7 @@ const team = [
     bio: 'Najmłodsza w ekipie, więc oficjalnie odpowiada za robienie kawy. Nieoficjalnie robi fade\'y tak równe, że starsi koledzy zaczęli nerwowo zerkać na grafik.',
     photo: `${base}/images/barber-2.webp`,
     photoAlt: 'Wiktoria — Razor Sznyt Knurów',
+    booksyUrl: 'https://booksy.com/pl-pl/253466_razor-sznyt_barber-shop_12841_knurow/staffer/839903',
     placeholder: false,
   },
 ];
@@ -47,7 +49,18 @@ const team = [
 
     <!-- Cards -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-5xl">
-      {team.map((member, i) => (
+      {team.map((member, i) => {
+        const photoImg = (
+          <img
+            src={member.photo!}
+            alt={member.photoAlt}
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 brightness-75"
+            loading="lazy"
+            width="400"
+            height="533"
+          />
+        );
+        return (
         <div class={`group flex flex-col ${member.placeholder ? 'opacity-50' : ''} ${i > 0 ? 'pt-10 sm:pt-0 border-t sm:border-t-0 border-brand-gold/40' : ''}`}>
           <!-- Photo -->
           <div class="relative aspect-[3/4] overflow-hidden bg-brand-surface-2 mb-6">
@@ -59,16 +72,18 @@ const team = [
                 </svg>
                 <span class="text-brand-muted text-xs tracking-widest uppercase">Urlop macierzyński</span>
               </div>
-            ) : (
-              <img
-                src={member.photo!}
-                alt={member.photoAlt}
-                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 brightness-75"
-                loading="lazy"
-                width="400"
-                height="533"
-              />
-            )}
+            ) : member.booksyUrl ? (
+              <a
+                href={member.booksyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="block w-full h-full"
+                aria-label={`Umów wizytę u ${member.name} przez Booksy`}
+                onclick="window.trackCTA && window.trackCTA('team-photo')"
+              >
+                {photoImg}
+              </a>
+            ) : photoImg}
             <!-- Gold accent line on hover -->
             {!member.placeholder && (
               <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-brand-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
@@ -84,7 +99,8 @@ const team = [
             <p class="text-brand-muted text-sm leading-relaxed">{member.bio}</p>
           </div>
         </div>
-      ))}
+        );
+      })}
     </div>
 
     <!-- CTA -->
